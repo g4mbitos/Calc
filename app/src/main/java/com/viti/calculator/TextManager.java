@@ -6,10 +6,22 @@ public class TextManager {
 
     public static void Add(TextView textView,char symbol)
     {
-        if(textView.getText().length() == 0 && (symbol == '.' || symbol == '0'))
-            return;
         if(textView.getText().toString().contains(".") && symbol == '.')
             return;
+
+        if(symbol == '0' && !textView.getText().toString().contains(".")
+                && textView.getText().length() != 0)
+        {
+            char c = textView.getText().toString().charAt(0);
+            if(c == '0')
+                return;
+        }
+
+        if(textView.getText().length() == 0 && symbol == '.')
+        {
+            textView.setText("0");
+        }
+
         String text = textView.getText().toString();
         if (text.length() > 18)
             return;

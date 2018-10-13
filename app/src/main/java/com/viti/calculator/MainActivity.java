@@ -32,12 +32,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private double num1 = 0;
     private double num2 = 0;
-    private double result = 0;
+    //private double result = 0;
 
     private Operation currentOperation = Operation.None;
     private Operation previousOperation = Operation.None;
 
-    boolean input = false;
+    boolean resultExist = true;
     boolean exist = false;
     boolean equal = false;
 
@@ -93,46 +93,111 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View v) {
 
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.buttonNum0:
-                    TextManager.Add(textViewField,'0');
+                if(resultExist)
+                {
+                    resultExist = false;
+                    textViewField.setText("");
+                }
+                previousOperation = currentOperation;
+                TextManager.Add(textViewField, '0');
                 break;
             case R.id.buttonNum1:
-                TextManager.Add(textViewField,'1');
+                if(resultExist)
+                {
+                    resultExist = false;
+                    textViewField.setText("");
+                }
+                previousOperation = currentOperation;
+                TextManager.Add(textViewField, '1');
                 break;
             case R.id.buttonNum2:
-                TextManager.Add(textViewField,'2');
+                if(resultExist)
+                {
+                    resultExist = false;
+                    textViewField.setText("");
+                }
+                TextManager.Add(textViewField, '2');
+                previousOperation = currentOperation;
                 break;
             case R.id.buttonNum3:
-                TextManager.Add(textViewField,'3');
+                if(resultExist)
+                {
+                    resultExist = false;
+                    textViewField.setText("");
+                }
+                previousOperation = currentOperation;
+                TextManager.Add(textViewField, '3');
                 break;
             case R.id.buttonNum4:
-                TextManager.Add(textViewField,'4');
+                if(resultExist)
+                {
+                    resultExist = false;
+                    textViewField.setText("");
+                }
+                previousOperation = currentOperation;
+                TextManager.Add(textViewField, '4');
                 break;
             case R.id.buttonNum5:
-                TextManager.Add(textViewField,'5');
+                if(resultExist)
+                {
+                    resultExist = false;
+                    textViewField.setText("");
+                }
+                previousOperation = currentOperation;
+                TextManager.Add(textViewField, '5');
                 break;
             case R.id.buttonNum6:
-                TextManager.Add(textViewField,'6');
+                if(resultExist)
+                {
+                    resultExist = false;
+                    textViewField.setText("");
+                }
+                previousOperation = currentOperation;
+                TextManager.Add(textViewField, '6');
                 break;
             case R.id.buttonNum7:
-                TextManager.Add(textViewField,'7');
+                if(resultExist)
+                {
+                    resultExist = false;
+                    textViewField.setText("");
+                }
+                TextManager.Add(textViewField, '7');
+                previousOperation = currentOperation;
                 break;
             case R.id.buttonNum8:
-                TextManager.Add(textViewField,'8');
+                if(resultExist)
+                {
+                    resultExist = false;
+                    textViewField.setText("");
+                }
+                TextManager.Add(textViewField, '8');
+                previousOperation = currentOperation;
                 break;
             case R.id.buttonNum9:
-                TextManager.Add(textViewField,'9');
+                if(resultExist)
+                {
+                    resultExist = false;
+                    textViewField.setText("");
+                }
+                TextManager.Add(textViewField, '9');
+                previousOperation = currentOperation;
                 break;
             case R.id.buttonDot:
-                TextManager.Add(textViewField,'.');
+                if(resultExist)
+                {
+                    resultExist = false;
+                    textViewField.setText("");
+                }
+                TextManager.Add(textViewField, '.');
                 break;
             case R.id.buttonAC:
-                TextManager.Delete(textViewField,true);
+                TextManager.Delete(textViewField, true);
                 exist = false;
                 break;
             case R.id.buttonC:
-                TextManager.Delete(textViewField,false);
+                TextManager.Delete(textViewField, false);
                 break;
             case R.id.buttonAdd:
 
@@ -170,19 +235,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             case R.id.buttonEq:
 
-                if(textViewField.getText().length()>0)
-                {
-                    if(!equal)
-                    {
+                resultExist = true;
+
+                if (textViewField.getText().length() > 0) {
+                    if (!equal) {
                         num2 = Double.parseDouble(textViewField.getText().toString());
                         exist = false;
                         equal = true;
-                    }
-                    else
-                    {
+                    } else {
 
                     }
-                    num1 = MathOperations.Eq(num1,num2,currentOperation);
+                    num1 = MathOperations.Eq(num1, num2, currentOperation);
                     textViewField.setText(String.valueOf(num1));
                 }
 
@@ -193,16 +256,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void realize(String s) {
+
         equal = false;
-        if(!exist && textViewField.getText().length()>0){
+        if (!exist && textViewField.getText().length() > 0) {
             exist = true;
             num1 = Double.parseDouble(textViewField.getText().toString());
             textViewField.setText("");
-        }
-        else if(textViewField.getText().length()>0){
+
+        } else if (textViewField.getText().length() > 0) {
             num2 = Double.parseDouble(textViewField.getText().toString());
-            num1 = MathOperations.Eq(num1,num2,currentOperation);
-            textViewField.setText("");
+            num1 = MathOperations.Eq(num1, num2, previousOperation);
+            textViewField.setText(String.valueOf(num1));
+            resultExist = true;
         }
     }
 }
